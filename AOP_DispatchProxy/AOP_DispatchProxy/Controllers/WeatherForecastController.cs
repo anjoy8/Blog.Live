@@ -18,18 +18,18 @@ namespace AOP_DispatchProxy.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IWelcomeService welcomeService;
+        private readonly IWelcomeService _welcomeService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,IWelcomeService welcomeService)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IWelcomeService welcomeService)
         {
             _logger = logger;
-            this.welcomeService = welcomeService;
+            _welcomeService = welcomeService;
         }
 
         [HttpGet]
         public object Get()
         {
-            return welcomeService.SayHi();
+            return _welcomeService.SayHi();
         }
     }
 }

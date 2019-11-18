@@ -30,18 +30,20 @@ namespace AOP_DispatchProxy
         {
             services.AddControllers();
 
-            // 1
+            // 1.Native DI
             //services.AddScoped<IWelcomeService, WelcomeService>();
 
             // 2
             //IWelcomeService decorator = DispatchProxy.Create<IWelcomeService, GenericDecorator>();
+
             //((GenericDecorator)decorator).TargetClass = new WelcomeService();
             //decorator.SayHi();
 
-            // 3
+
+            // 3.Castle.DynamicProxy
             //services.AddScoped<WelcomeService>();
             //services.AddScoped<GenericDecorator>();
-            //services.AddScoped<IWelcomeService>(provider =>
+            //services.AddScoped(provider =>
             //{
             //    var generator = new ProxyGenerator();
             //    var target = provider.GetService<WelcomeService>();
@@ -53,7 +55,7 @@ namespace AOP_DispatchProxy
 
 
 
-            // 4
+            // 4.Native DI FOR
             Assembly assembly = Assembly.Load("AOP_DispatchProxy");
             List<Type> ts = assembly.GetTypes().Where(d=>d.Name.EndsWith("Service")).ToList();
 
@@ -62,24 +64,24 @@ namespace AOP_DispatchProxy
                 var interfaceType = item.GetInterfaces();
                 foreach (var typeArray in interfaceType)
                 {
-                    services.AddScoped(typeArray, item);
+                    //services.AddScoped(typeArray, item);
 
-                    services.AddScoped<WelcomeService>();
+                    services.AddScoped(item);
                     services.AddScoped<GenericDecorator>();
-                    services.AddScoped<IWelcomeService>(provider =>
+                    services.AddScoped(provider =>
                     {
                         var generator = new ProxyGenerator();
-                        var target = provider.GetService<WelcomeService>();
+                        var target = provider.GetService(item);
                         var interceptor = provider.GetService<GenericDecorator>();
-                        var proxy = generator.CreateInterfaceProxyWithTarget<IWelcomeService>(target, interceptor);
+                        var proxy = generator.CreateInterfaceProxyWithTarget(typeArray,target, interceptor);
 
-                        return proxy;
+                        return (IWelcomeService)proxy;
                     });
-
-
-
                 }
             }
+
+            // 5.Autofac
+
 
         }
 
