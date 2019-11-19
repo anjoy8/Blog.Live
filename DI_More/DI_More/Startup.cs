@@ -32,11 +32,36 @@ namespace DI_More
             //services.AddScoped<IMoreImplService, WelcomeEnglishService>();
 
 
-            SingletonFactory singletonFactory = new SingletonFactory();
-            singletonFactory.AddService<IMoreImplService>(new WelcomeChineseService(), "Chinese");
-            singletonFactory.AddService<IMoreImplService>(new WelcomeEnglishService(), "English");
+            //SingletonFactory singletonFactory = new SingletonFactory();
+            //singletonFactory.AddService<IMoreImplService>(new WelcomeChineseService(), "Chinese");
+            //singletonFactory.AddService<IMoreImplService>(new WelcomeEnglishService(), "English");
 
-            services.AddSingleton(singletonFactory);
+            //services.AddSingleton(singletonFactory);
+
+
+            services.AddSingleton<WelcomeChineseService>();
+            services.AddSingleton<WelcomeEnglishService>();
+
+            services.AddSingleton(factory =>
+            {
+                Func<string, IMoreImplService> accesor = key =>
+                {
+                    if (key.Equals("Chinese"))
+                    {
+                        return factory.GetService<WelcomeChineseService>();
+                    }
+                    else if (key.Equals("English"))
+                    {
+                        return factory.GetService<WelcomeEnglishService>();
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Not Support key : {key}");
+                    }
+                };
+                return accesor;
+            });
+
 
         }
 

@@ -19,14 +19,20 @@ namespace DI_More.Controllers
         private readonly IMoreImplService moreImplServiceChinese;
         private readonly IMoreImplService moreImplServiceEnglish;
 
+        private readonly Func<string, IMoreImplService> _serviceAccessor;
 
-        public WeatherForecastController(OneSeparateService oneSeparateService, SingletonFactory singletonFactory)
+
+        public WeatherForecastController(OneSeparateService oneSeparateService, Func<string, IMoreImplService> serviceAccessor)
         {
             this.oneSeparateService = oneSeparateService;
-            this.singletonFactory = singletonFactory;
+            //this.singletonFactory = singletonFactory;
 
-            moreImplServiceChinese = singletonFactory.GetService<IMoreImplService>("Chinese");
-            moreImplServiceEnglish = singletonFactory.GetService<IMoreImplService>("English");
+            //moreImplServiceChinese = singletonFactory.GetService<IMoreImplService>("Chinese");
+            //moreImplServiceEnglish = singletonFactory.GetService<IMoreImplService>("English");
+
+            _serviceAccessor = serviceAccessor;
+            moreImplServiceChinese = _serviceAccessor("Chinese");
+            moreImplServiceEnglish = _serviceAccessor("English");
         }
 
         [HttpGet]
@@ -46,7 +52,7 @@ namespace DI_More.Controllers
             //    result += item.SayWelocome();
             //}
 
-            return moreImplServiceChinese.SayWelocome();
+            return moreImplServiceChinese.SayWelocome() + "\n" + moreImplServiceEnglish.SayWelocome();
         }
     }
 }
