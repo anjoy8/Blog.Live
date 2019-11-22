@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 namespace jwt_gw.PolicyRequirement
 {
     // 自定义策略授权
-    public class MustRoleAdminHandler : IAuthorizationHandler
-    {
-        public Task HandleAsync(AuthorizationHandlerContext context)
-        {
-
-            return Task.CompletedTask;
-        }
-    }
-
-    //抽象类
-    //public class MustRoleAdminHandler : AuthorizationHandler<AdminRequirement>
+    //public class MustRoleAdminHandler : IAuthorizationHandler
     //{
-    //    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminRequirement requirement)
+    //    public Task HandleAsync(AuthorizationHandlerContext context)
     //    {
-    //        context.Succeed(requirement);
+
     //        return Task.CompletedTask;
     //    }
     //}
+
+    //抽象类
+    public class MustRoleAdminHandler : AuthorizationHandler<AdminRequirement>
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminRequirement requirement)
+        {
+            context.Succeed(requirement);
+            return Task.CompletedTask;
+        }
+    }
 }

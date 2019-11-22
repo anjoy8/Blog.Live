@@ -34,7 +34,7 @@ namespace jwt_gw.Controllers
 
 
         //[Authorize(Policy  = "AdminOrUser")]//admin 或者 user都可以访问
-        [Authorize(Policy = "AdminPolicy1")]// 必须是admin且user 才可以访问
+        [Authorize(Policy = "AdminRequireMent")]// 必须是admin且user 才可以访问
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

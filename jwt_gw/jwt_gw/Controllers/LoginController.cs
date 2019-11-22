@@ -36,7 +36,7 @@ namespace jwt_gw.Controllers
 
             // session["laozhang"]="laoli";
 
-            return new JwtSecurityTokenHandler().WriteToken();
+            return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
     }
 }
