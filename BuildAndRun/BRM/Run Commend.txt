@@ -1,0 +1,57 @@
+class Program
+{
+    static void Main(string[] args)
+        => System.Console.WriteLine("Hello World!");
+}
+
+
+
+dotnet "C:\Program Files\dotnet\sdk\3.1.100\Roslyn\bincore\csc.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\\System.Runtime.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\System.Console.dll" -out:Hello.dll Hello.cs
+
+
+
+{
+  "runtimeOptions": {
+    "framework": {
+      "name": "Microsoft.NETCore.App",
+      "version": "2.1.2"
+    }
+  }
+}
+
+
+class Program
+{
+    static void Main(string[] args)
+        => System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject("Hello ¿œ’≈"));
+}
+
+
+
+dotnet "C:\Program Files\dotnet\sdk\3.1.100\Roslyn\bincore\csc.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\\System.Runtime.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\System.Console.dll"  -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll" -out:Hello.dll Hello.cs
+
+
+dotnet "C:\Program Files\dotnet\sdk\3.1.100\Roslyn\bincore\csc.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\\System.Runtime.dll" -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.2.0\ref\netcoreapp2.2\System.Console.dll"  -reference:"C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll" -nowarn:CS1701 -out:Hello.dll Hello.cs
+
+
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1"
+  },
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Newtonsoft.Json/11.0.2": {
+        "runtime": {
+          "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Newtonsoft.Json/11.0.2": {
+      "type": "package",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
