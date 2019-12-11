@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Configuration_All.Config;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
-namespace Configuration_All.Controllers
+namespace WebApplication7.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -19,21 +17,20 @@ namespace Configuration_All.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly Rootobject _rootobject;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, Rootobject rootobject)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _rootobject = rootobject;
         }
 
         [HttpGet]
-        public object Get()
+        public List<KeyValuePair<string,string>> Get()
         {
-            return ConfigrationBuild.GetVal("Chinese") +
-                ConfigrationBuild.GetValBySection("Chinese") +
-               JsonConvert.SerializeObject(_rootobject.Logging.LogLevel)
-                ;
+            var configs = new List<KeyValuePair<string, string>>();
+
+            configs.Add(new KeyValuePair<string, string>("pwd", "this is secret"));
+
+            return configs;
         }
     }
 }
